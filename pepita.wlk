@@ -4,13 +4,21 @@ object pepita {
 	method comer(comida) {
 		energia = energia + comida.energiaQueAporta()
 	}
-	
+	method validarSiPuedeVolar(distancia){
+		if (distancia > energia){
+			self.error("Pepita no tiene energia suficiente")
+		}
+	}	
 	method volar(distancia) {
+		self.validarSiPuedeVolar(distancia)
 		energia = energia - 10 - distancia
 	}
 		
 	method energia() {
 		return energia
+	}
+	method puedeVolar(distancia){
+		return distancia < energia
 	}
 }
 
@@ -54,14 +62,23 @@ object pepon {
 	}
 		
 	method volar(distancia) {
+		self.validarSiPuedeVolar(distancia)
 		energia = energia - 20 - 2*distancia
 	}
+	method puedeVolar(distancia){
+		return distancia < energia
+	}
 	
+	method validarSiPuedeVolar(distancia){
+		if (distancia > energia){
+			self.error("Pepon no tiene energia suficiente")
+		}
+	}	
 }
 
 object roque {
 	var ave = pepita
-	var cenas = 0;
+	var cenas = 0
 	
 	method ave(_ave) {
 		ave = _ave
@@ -71,5 +88,12 @@ object roque {
 	method alimentar(alimento) {
 		ave.comer(alimento)
 		cenas = cenas + 1
+	}
+}
+
+
+object milena {
+	const aves = [pepita,pepon]   
+		method movilizar(distancia){
 	}
 }
