@@ -73,4 +73,3 @@ object roque {
 		cenas = cenas + 1
 	}
 }
-
