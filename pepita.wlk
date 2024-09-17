@@ -95,5 +95,6 @@ object roque {
 object milena {
 	const aves = [pepita,pepon]   
 		method movilizar(distancia){
+			
 	}
 }
