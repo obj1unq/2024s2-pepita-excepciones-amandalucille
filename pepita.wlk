@@ -91,10 +91,27 @@ object roque {
 	}
 }
 
-
 object milena {
-	const aves = [pepita,pepon]   
-		method movilizar(distancia){
-			
-	}
+    const property aves = #{pepita, pepon}
+
+    method movilizar(distancia) {
+        if (self.puedeMovilizarse(distancia)){
+            aves.map({ave => ave.volar(distancia)})
+        }else{
+
+            self.error("Milena NO puede movilizarse porque " + self.avesQueNoPuedenVolar(distancia) + " no puede volar")
+        }
+        
+    }
+    method avesQueNoPuedenVolar(distancia){
+        return aves.filter{ave=> ! ave.puedeVolar(distancia)}
+    }
+
+    method puedeMovilizarse(distancia){
+        return aves.all({ave => ave.puedeVolar(distancia)})
+    }
+
+    method agregarAve(ave){
+        aves.add(ave)
+    }
 }
