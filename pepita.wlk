@@ -4,24 +4,26 @@ object pepita {
 	method comer(comida) {
 		energia += comida.energiaQueAporta()
 	}
+	method puedeVolar(distancia){
+		return energia >= self.energiaNecesaria(distancia) 
+	}
+	method energiaNecesaria(distancia){ // se crea para hacer el metodo puedeVolar polimorfico, ya que el código volar de pepon y de pepita son similares
+		return 10 + distancia
+	}
 	method validarSiPuedeVolar(distancia){
-		if (distancia > energia){
+		if (not self.puedeVolar(distancia)){
 			self.error("Pepita no tiene energia suficiente")
 		}
 	}	
 	method volar(distancia) {
 		self.validarSiPuedeVolar(distancia)
-		energia = energia - 10 - distancia
+		energia  -= self.energiaNecesaria(distancia)
 	}
 		
 	method energia() {
 		return energia
-	}
-	method puedeVolar(distancia){
-		return distancia < energia
-	}
+	}	
 }
-
 object alpiste {
 	method energiaQueAporta() {
 		return 20
@@ -63,18 +65,22 @@ object pepon {
 		
 	method volar(distancia) {
 		self.validarSiPuedeVolar(distancia)
-		energia = energia - 20 - 2*distancia
+		energia  -= self.energiaNecesaria(distancia)
 	}
-	method puedeVolar(distancia){
-		return distancia < energia
+	method puedeVolar(distancia){  
+		return energia > self.energiaNecesaria(distancia)
 	}
 	
+	method energiaNecesaria(distancia){ 
+		return 20 + (distancia * 2)
+	}
 	method validarSiPuedeVolar(distancia){
-		if (distancia > energia){
+		if (not self.puedeVolar(distancia)){
 			self.error("Pepon no tiene energia suficiente")
 		}
-	}	
+	}
 }
+
 
 object roque {
 	var ave = pepita
@@ -92,37 +98,24 @@ object roque {
 }
 
 object milena {
-    const property aves = #{pepita, pepon}
+    const aves = #{pepita, pepon}
 
-    method movilizar(distancia) {
+    method movilizar(distancia) {  
 		self.validarMovilizar(distancia)
 		aves.forEach({ave => ave.volar(distancia)})	
 
 
     }
+	//Validación para lanzar excepción. Detiene el flujo del programa si al condicion es True
 	method validarMovilizar(distancia){
-		if(not self.puedeMovilizar (distancia)){
-			self.error{"No puede movilizar a todas sus aves!"} // afirmación que quiero que sea falsa para "forzar el error"
-
-		} //excepción: interrumpe la ejecución del programa
-		 // 
+		if(not self.puedeMovilizar(distancia)){ //Se usa una consulta booleana para ver si hay que lanzarla.
+			self.error("No puede movilizar a todas sus aves!")
+		}
 	}
 
 	method puedeMovilizar(distancia){
-		return aves.all({ave => ave.puedeVolar})
+		return aves.all({ave => ave.puedeVolar(distancia)})
 	}
-	
-    method avesQueNoPuedenVolar(distancia){
-        return aves.filter{ave=> ! ave.puedeVolar(distancia)}
-    }
-
-    method puedeMovilizarse(distancia){
-        return aves.all({ave => ave.puedeVolar(distancia)})
-    }
-
-    method agregarAve(ave){
-        aves.add(ave)
-    }
 }
 
 /*
