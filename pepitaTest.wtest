@@ -46,7 +46,6 @@ describe "Milena Movilizar y volar demas"{
     assert.equals(100, pepita.energia())
     assert.equals(30, pepon.energia())
   }
-
 }
 
 
