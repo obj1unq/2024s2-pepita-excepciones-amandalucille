@@ -2,7 +2,7 @@ object pepita {
 	var energia = 100
 	
 	method comer(comida) {
-		energia = energia + comida.energiaQueAporta()
+		energia += comida.energiaQueAporta()
 	}
 	method validarSiPuedeVolar(distancia){
 		if (distancia > energia){
@@ -58,8 +58,8 @@ object pepon {
 	}
 		
 	method comer(comida) {
-		energia += energia + comida.energiaQueAporta() / 2
-	}
+		energia += comida.energiaQueAporta() / 2
+	} 
 		
 	method volar(distancia) {
 		self.validarSiPuedeVolar(distancia)
@@ -95,14 +95,23 @@ object milena {
     const property aves = #{pepita, pepon}
 
     method movilizar(distancia) {
-        if (self.puedeMovilizarse(distancia)){
-            aves.map({ave => ave.volar(distancia)})
-        }else{
+		self.validarMovilizar(distancia)
+		aves.forEach({ave => ave.volar(distancia)})	
 
-            self.error("Milena NO puede movilizarse porque " + self.avesQueNoPuedenVolar(distancia) + " no puede volar")
-        }
-        
+
     }
+	method validarMovilizar(distancia){
+		if(not self.puedeMovilizar (distancia)){
+			self.error{"No puede movilizar a todas sus aves!"} // afirmación que quiero que sea falsa para "forzar el error"
+
+		} //excepción: interrumpe la ejecución del programa
+		 // 
+	}
+
+	method puedeMovilizar(distancia){
+		return aves.all({ave => ave.puedeVolar})
+	}
+	
     method avesQueNoPuedenVolar(distancia){
         return aves.filter{ave=> ! ave.puedeVolar(distancia)}
     }
@@ -115,3 +124,14 @@ object milena {
         aves.add(ave)
     }
 }
+
+/*
+const entrenamientos = {pepita,pepita,pepon,pepon,pepon}
+
+ocurrencesOf -- saber cuantas veces aparece un determinado 
+				elemento en una lista
+ej : entranamientos.occurencesOf(pepon)
+
+equivalente : entrenamientos.count({ave => ave == pepon})
+*/
+				
