@@ -52,18 +52,3 @@ Ejemplos:
  * pepita puede volar 6 kms, pero pepon no. Por lo tanto milena no puede movilizarlas. (Si se intenta movilizarlas ambas deben quedar con su energia inicial)
  * ni pepita ni pepon pueden volar 100 km.
  
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
