@@ -84,7 +84,7 @@ object pepon {
 
 object roque {
 	var ave = pepita
-	var cenas = 0
+	var property cenas = 0
 	
 	method ave(_ave) {
 		ave = _ave
